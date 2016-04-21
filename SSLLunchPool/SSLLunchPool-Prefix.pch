@@ -1,17 +1,15 @@
 //
-//  PrefixHeader.pch
+//  SSLLunchPool-Prefix.pch
 //  SSLLunchPool
 //
-//  Created by sam_lai on 4/21/16.
+//  Created by SongSheng on 4/22/16.
 //  Copyright © 2016 Sam Lai. All rights reserved.
 //
 
-#ifndef PrefixHeader_pch
-#define PrefixHeader_pch
+#ifndef SSLLunchPool_Prefix_pch
+#define SSLLunchPool_Prefix_pch
 
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
-#import "SSLDefine.h"
-
-#endif /* PrefixHeader_pch */
+#endif /* SSLLunchPool_Prefix_pch */
