@@ -20,7 +20,7 @@
     // Override point for customization after application launch.
     application.statusBarHidden = YES;
     
-    [GMSServices provideAPIKey:];
+    [GMSServices provideAPIKey:GOOGLE_API_KEY];
     
     return YES;
 }

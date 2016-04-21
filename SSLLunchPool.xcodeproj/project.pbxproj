@@ -34,7 +34,7 @@
 		227DA5A51CBDF89700E4D428 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		227DA5AC1CBE02FF00E4D428 /* SSLRestaurant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSLRestaurant.h; path = Model/SSLRestaurant.h; sourceTree = "<group>"; };
 		227DA5AD1CBE02FF00E4D428 /* SSLRestaurant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSLRestaurant.m; path = Model/SSLRestaurant.m; sourceTree = "<group>"; };
-		22F156151CC8E4CE00036E55 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		A4ECA3031CC947A900CAF397 /* SSLLunchPool-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SSLLunchPool-Prefix.pch"; sourceTree = "<group>"; };
 		B2C12FD6B991120A23803B65 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,7 +82,6 @@
 				227DA5A51CBDF89700E4D428 /* Info.plist */,
 				227DA5941CBDF89700E4D428 /* Supporting Files */,
 				227491F71CC8DCF1004E5716 /* SSLDefine.h */,
-				22F156151CC8E4CE00036E55 /* PrefixHeader.pch */,
 			);
 			path = SSLLunchPool;
 			sourceTree = "<group>";
@@ -90,6 +89,7 @@
 		227DA5941CBDF89700E4D428 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A4ECA3031CC947A900CAF397 /* SSLLunchPool-Prefix.pch */,
 				227DA5951CBDF89700E4D428 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -361,6 +361,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SSLLunchPool/SSLLunchPool-Prefix.pch";
 				INFOPLIST_FILE = SSLLunchPool/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -375,6 +377,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SSLLunchPool/SSLLunchPool-Prefix.pch";
 				INFOPLIST_FILE = SSLLunchPool/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
