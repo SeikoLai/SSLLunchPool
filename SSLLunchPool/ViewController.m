@@ -10,10 +10,13 @@
 // Model
 #import "SSLRestaurant.h"
 #import <AVFoundation/AVFoundation.h>
+#import "SSLPlaceViewController.h"
+
+@import GoogleMaps;
 
 #define ARC4RANDOM_MAX      0x100000000
 
-@interface ViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface ViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, SSLPlaceViewControllerDelegate>
 {
     UIImagePickerController *_imagePickerController;
     UIPopoverController *_popoverController;
@@ -22,7 +25,11 @@
     __weak IBOutlet UIButton *stopButton;
     __weak IBOutlet UIButton *addButton;
     BOOL _starting;
+    NSArray *_places;
+    UIActivityIndicatorView *_activityIndicatorView;
 }
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 - (IBAction)start:(id)sender;
@@ -31,7 +38,9 @@
 
 @end
 
-@implementation ViewController
+@implementation ViewController{
+    GMSPlacesClient *_placesClient;
+}
 
 - (void)loadView
 {
@@ -58,11 +67,31 @@
     
     _imagePickerController = [[UIImagePickerController alloc] init];
     _imagePickerController.delegate = self;
+    
+    _placesClient = [[GMSPlacesClient alloc] init];
+    
+    [_placesClient currentPlaceWithCallback:^(GMSPlaceLikelihoodList * _Nullable likelihoodList, NSError * _Nullable error) {
+        if (error != nil) {
+            NSLog(@"Picker Place error %@", error.localizedDescription);
+            return;
+        }
+        
+        if (likelihoodList != nil) {
+            _places = [likelihoodList likelihoods];
+            [_activityIndicatorView stopAnimating];
+            [self add:nil];
+        }
+    }];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    _activityIndicatorView.center = CGPointMake(CGRectGetMidX([[UIScreen mainScreen] bounds]), CGRectGetMidY([[UIScreen mainScreen] bounds]));
+    _activityIndicatorView.hidesWhenStopped = YES;
+    [_activityIndicatorView stopAnimating];
+    [self.view addSubview:_activityIndicatorView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -90,45 +119,18 @@
 }
 
 - (IBAction)add:(id)sender {
-    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if(authStatus == AVAuthorizationStatusAuthorized)
-    {
-        [self popCamera];
+    if (_places.count) {
+        [_activityIndicatorView stopAnimating];
+        SSLPlaceViewController *placeViewController = [[SSLPlaceViewController alloc] init];
+        placeViewController.places = _places;
+        placeViewController.delegate = self;
+        [self presentViewController:placeViewController animated:YES completion:^{
+            
+        }];
     }
-    else if(authStatus == AVAuthorizationStatusNotDetermined)
-    {
-        NSLog(@"%@", @"Camera access not determined. Ask for permission.");
-        
-        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted)
-         {
-             if(granted)
-             {
-                 NSLog(@"Granted access to %@", AVMediaTypeVideo);
-                 [self popCamera];
-             }
-             else
-             {
-                 NSLog(@"Not granted access to %@", AVMediaTypeVideo);
-                 [self camDenied];
-             }
-         }];
+    else {
+        [_activityIndicatorView startAnimating];
     }
-    else if (authStatus == AVAuthorizationStatusRestricted)
-    {
-        UIAlertView *alert = [[UIAlertView alloc]
-                              initWithTitle:@"Error"
-                              message:@"You've been restricted from using the camera on this device. Without camera access this feature won't work. Please contact the device owner so they can give you access."
-                              delegate:self
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil];
-        
-        [alert show];
-    }
-    else
-    {
-        [self camDenied];
-    }
-
 }
 
 - (UIButton *)circleButtonFromButton:(UIButton *)button
@@ -171,108 +173,16 @@
     int randomNumber = 1 + rand() % (_restaurants.count-1);
     SSLRestaurant *restaurant = _restaurants[randomNumber];
     UIImage *image = [UIImage imageNamed:restaurant.image];
-    if (!image) {
-        NSString *imagePath = [self imagePathFromDirectoriesInDomains];
-        image = [UIImage imageWithContentsOfFile:imagePath];
-    }
     self.imageView.image = image;
 }
 
-- (void)popCamera
+#pragma mark - <SSLPlaceViewControllerDelegate>
+- (void)controller:(UIViewController *)controller didSelectPlace:(GMSPlace *)place
 {
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    {
-        _imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-        [self presentViewController:_imagePickerController animated:YES completion:NULL];
+    if ([self conformsToProtocol:@protocol(SSLPlaceViewControllerDelegate) ]) {
+        self.nameLabel.text = place.name;
+        self.addressLabel.text = place.formattedAddress;
     }
-    else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"No Camera Available." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
-        alert = nil;
-    }
-}
-
-- (void)camDenied
-{
-    NSLog(@"%@", @"Denied camera access");
-    
-    NSString *alertText;
-    NSString *alertButton;
-    
-    BOOL canOpenSettings = (&UIApplicationOpenSettingsURLString != NULL);
-    if (canOpenSettings)
-    {
-        alertText = @"It looks like your privacy settings are preventing us from accessing your camera to do barcode scanning. You can fix this by doing the following:\n\n1. Touch the Go button below to open the Settings app.\n\n2. Touch Privacy.\n\n3. Turn the Camera on.\n\n4. Open this app and try again.";
-        
-        alertButton = @"Go";
-    }
-    else
-    {
-        alertText = @"It looks like your privacy settings are preventing us from accessing your camera to do barcode scanning. You can fix this by doing the following:\n\n1. Close this app.\n\n2. Open the Settings app.\n\n3. Scroll to the bottom and select this app in the list.\n\n4. Touch Privacy.\n\n5. Turn the Camera on.\n\n6. Open this app and try again.";
-        
-        alertButton = @"OK";
-    }
-    
-    UIAlertView *alert = [[UIAlertView alloc]
-                          initWithTitle:@"Error"
-                          message:alertText
-                          delegate:self
-                          cancelButtonTitle:alertButton
-                          otherButtonTitles:nil];
-    alert.tag = 3491832;
-    [alert show];
-}
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag == 3491832)
-    {
-        BOOL canOpenSettings = (&UIApplicationOpenSettingsURLString != NULL);
-        if (canOpenSettings)
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-    }
-}
-
-- (void) imagePickerController:(UIImagePickerController *)picker
- didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    
-    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
-    if ([mediaType isEqualToString:@"public.image"]){
-        UIImage *originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-        
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [self saveOriginalImage:originalImage];
-            SSLRestaurant *restaurant = [SSLRestaurant new];
-            restaurant.title = [[self imagePathFromDirectoriesInDomains] lastPathComponent];
-            restaurant.image = [[self imagePathFromDirectoriesInDomains] lastPathComponent];
-            
-            [_restaurants addObject:restaurant];
-        });
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_imagePickerController dismissViewControllerAnimated:YES completion:^{
-                self.imageView.image = originalImage;
-            }];
-        });
-    }
-}
-
-- (void)saveOriginalImage:(UIImage *)originalImage
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *path = [paths objectAtIndex:0];
-    NSString *str = @"sample.png";
-    NSString *imagePath = [path stringByAppendingPathComponent:str];
-    NSData *imagedata = UIImagePNGRepresentation(originalImage);
-    [imagedata writeToFile:imagePath atomically:YES];
-}
-
-- (NSString *)imagePathFromDirectoriesInDomains
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *path = [paths objectAtIndex:0];
-    NSString *str = @"sample.png";
-    return [path stringByAppendingPathComponent:str];
 }
 
 @end

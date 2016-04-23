@@ -15,6 +15,8 @@
 		227DA5A41CBDF89700E4D428 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 227DA5A21CBDF89700E4D428 /* LaunchScreen.storyboard */; };
 		227DA5AE1CBE02FF00E4D428 /* SSLRestaurant.m in Sources */ = {isa = PBXBuildFile; fileRef = 227DA5AD1CBE02FF00E4D428 /* SSLRestaurant.m */; };
 		229C750F1CC60BE000C4A5C2 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 227DA5A51CBDF89700E4D428 /* Info.plist */; };
+		229E01BD1CCBB844003561AE /* SSLPlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 229E01BB1CCBB844003561AE /* SSLPlaceViewController.m */; };
+		229E01C01CCBC10D003561AE /* SSLPlaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 229E01BF1CCBC10D003561AE /* SSLPlaceViewController.xib */; };
 		485831EC901AC5DC91A8E56D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EFD608C96608D44BD70129 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +36,9 @@
 		227DA5A51CBDF89700E4D428 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		227DA5AC1CBE02FF00E4D428 /* SSLRestaurant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSLRestaurant.h; path = Model/SSLRestaurant.h; sourceTree = "<group>"; };
 		227DA5AD1CBE02FF00E4D428 /* SSLRestaurant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSLRestaurant.m; path = Model/SSLRestaurant.m; sourceTree = "<group>"; };
+		229E01BA1CCBB844003561AE /* SSLPlaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSLPlaceViewController.h; path = Controller/SSLPlaceViewController/SSLPlaceViewController.h; sourceTree = "<group>"; };
+		229E01BB1CCBB844003561AE /* SSLPlaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSLPlaceViewController.m; path = Controller/SSLPlaceViewController/SSLPlaceViewController.m; sourceTree = "<group>"; };
+		229E01BF1CCBC10D003561AE /* SSLPlaceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SSLPlaceViewController.xib; path = Controller/SSLPlaceViewController/SSLPlaceViewController.xib; sourceTree = "<group>"; };
 		A4ECA3031CC947A900CAF397 /* SSLLunchPool-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SSLLunchPool-Prefix.pch"; sourceTree = "<group>"; };
 		B2C12FD6B991120A23803B65 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,6 +76,7 @@
 		227DA5931CBDF89700E4D428 /* SSLLunchPool */ = {
 			isa = PBXGroup;
 			children = (
+				229E01B91CCBB814003561AE /* Controller */,
 				227DA5AB1CBE02C300E4D428 /* Model */,
 				227DA5971CBDF89700E4D428 /* AppDelegate.h */,
 				227DA5981CBDF89700E4D428 /* AppDelegate.m */,
@@ -102,6 +108,24 @@
 				227DA5AD1CBE02FF00E4D428 /* SSLRestaurant.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		229E01B81CCBB7C5003561AE /* SSLPlaceViewController */ = {
+			isa = PBXGroup;
+			children = (
+				229E01BF1CCBC10D003561AE /* SSLPlaceViewController.xib */,
+				229E01BA1CCBB844003561AE /* SSLPlaceViewController.h */,
+				229E01BB1CCBB844003561AE /* SSLPlaceViewController.m */,
+			);
+			name = SSLPlaceViewController;
+			sourceTree = "<group>";
+		};
+		229E01B91CCBB814003561AE /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				229E01B81CCBB7C5003561AE /* SSLPlaceViewController */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		7940E440ED1D8BB814EBBF07 /* Pods */ = {
@@ -156,6 +180,12 @@
 				TargetAttributes = {
 					227DA5901CBDF89700E4D428 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = DER28SYYN5;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -182,6 +212,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				229E01C01CCBC10D003561AE /* SSLPlaceViewController.xib in Resources */,
 				229C750F1CC60BE000C4A5C2 /* Info.plist in Resources */,
 				227DA5A41CBDF89700E4D428 /* LaunchScreen.storyboard in Resources */,
 				227DA5A11CBDF89700E4D428 /* Assets.xcassets in Resources */,
@@ -246,6 +277,7 @@
 			files = (
 				227DA59C1CBDF89700E4D428 /* ViewController.m in Sources */,
 				227DA5AE1CBE02FF00E4D428 /* SSLRestaurant.m in Sources */,
+				229E01BD1CCBB844003561AE /* SSLPlaceViewController.m in Sources */,
 				227DA5991CBDF89700E4D428 /* AppDelegate.m in Sources */,
 				227DA5961CBDF89700E4D428 /* main.m in Sources */,
 			);
@@ -361,6 +393,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SSLLunchPool/SSLLunchPool-Prefix.pch";
 				INFOPLIST_FILE = SSLLunchPool/Info.plist;
@@ -368,6 +401,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sam.lai.SSLLunchPool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -377,6 +411,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SSLLunchPool/SSLLunchPool-Prefix.pch";
 				INFOPLIST_FILE = SSLLunchPool/Info.plist;
@@ -384,6 +419,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sam.lai.SSLLunchPool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

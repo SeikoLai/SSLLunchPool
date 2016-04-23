@@ -7,49 +7,78 @@
 //
 
 #import "SSLPlaceViewController.h"
+#import "ViewController.h"
+@import GoogleMaps;
 
-@interface SSLPlaceViewController ()
+@interface SSLPlaceViewController (){
+    NSMutableArray *_places;
+}
 
 @end
 
-@implementation SSLPlaceViewController
+@implementation SSLPlaceViewController{
+    GMSPlacesClient *_placesClient;
+}
+- (void)loadView
+{
+    [super loadView];
+    if (self.places.count) {
+        _places = [self.places mutableCopy];
+    }
+    else {
+        [_placesClient currentPlaceWithCallback:^(GMSPlaceLikelihoodList * _Nullable likelihoodList, NSError * _Nullable error) {
+            if (error != nil) {
+                NSLog(@"Picker Place error %@", error.localizedDescription);
+                return;
+            }
+            
+            if (likelihoodList != nil) {
+                _places = [[likelihoodList likelihoods] mutableCopy];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadData];
+                });
+            }
+        }];
+    }
 
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
+    return self.places.count;
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    static NSString *cellIdentifier = @"CellIdentifier";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+    }
+    
+    GMSPlace *place = [_places[indexPath.row] place];
+    cell.textLabel.text = place.name;
+    cell.detailTextLabel.text = place.formattedAddress;
     
     // Configure the cell...
     
     return cell;
 }
-*/
 
 /*
 // Override to support conditional editing of the table view.
@@ -85,21 +114,16 @@
 }
 */
 
-/*
+
 #pragma mark - Table view delegate
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here, for example:
-    // Create the next view controller.
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:<#@"Nib name"#> bundle:nil];
-    
-    // Pass the selected object to the new view controller.
-    
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(controller:didSelectPlace:)]) {
+        [self.delegate controller:self didSelectPlace:[_places[indexPath.row] place]];
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
-*/
 
 /*
 #pragma mark - Navigation
