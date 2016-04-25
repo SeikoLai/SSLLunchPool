@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SSLToast : UIView
-
++ (instancetype)loadViewWithMessage:(NSString *)message;
 @end

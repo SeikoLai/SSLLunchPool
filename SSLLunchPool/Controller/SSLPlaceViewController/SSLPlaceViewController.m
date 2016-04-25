@@ -19,9 +19,14 @@
 @implementation SSLPlaceViewController{
     GMSPlacesClient *_placesClient;
 }
-- (void)loadView
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+}
+
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super loadView];
+    [super viewWillAppear:animated];
     if (self.places.count) {
         _places = [self.places mutableCopy];
     }
@@ -40,10 +45,6 @@
             }
         }];
     }
-
-}
-- (void)viewDidLoad {
-    [super viewDidLoad];
 }
 
 - (void)didReceiveMemoryWarning {

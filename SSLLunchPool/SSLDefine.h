@@ -9,6 +9,6 @@
 #ifndef SSLDefine_h
 #define SSLDefine_h
 
-#define GOOGLE_API_KEY @"AIzaSyDywKZ5yuJDhafJNQq1TN1zrFjF6vo_xts"
+#define GOOGLE_API_KEY @"AIzaSyC0-UKn3V0_Em1pWH_ciuV2yWzliTZmRlI"
 
 #endif /* SSLDefine_h */

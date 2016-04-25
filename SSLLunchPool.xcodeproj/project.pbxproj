@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		227B76331CCE1EBE0043F6D0 /* SSLToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 227B76321CCE1EBE0043F6D0 /* SSLToast.m */; };
 		227DA5961CBDF89700E4D428 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 227DA5951CBDF89700E4D428 /* main.m */; };
 		227DA5991CBDF89700E4D428 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 227DA5981CBDF89700E4D428 /* AppDelegate.m */; };
 		227DA59C1CBDF89700E4D428 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227DA59B1CBDF89700E4D428 /* ViewController.m */; };
@@ -17,13 +18,14 @@
 		229C750F1CC60BE000C4A5C2 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 227DA5A51CBDF89700E4D428 /* Info.plist */; };
 		229E01BD1CCBB844003561AE /* SSLPlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 229E01BB1CCBB844003561AE /* SSLPlaceViewController.m */; };
 		229E01C01CCBC10D003561AE /* SSLPlaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 229E01BF1CCBC10D003561AE /* SSLPlaceViewController.xib */; };
-		485831EC901AC5DC91A8E56D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EFD608C96608D44BD70129 /* libPods.a */; };
+		D8EFACFCE1877769E98A60DE /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E67BCA70A0ECE533F222A69B /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		08EE80567C738B093E0FCFDD /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		09EFD608C96608D44BD70129 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		227491F71CC8DCF1004E5716 /* SSLDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSLDefine.h; sourceTree = "<group>"; };
+		227B76311CCE1EBE0043F6D0 /* SSLToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSLToast.h; path = View/Toast/SSLToast.h; sourceTree = "<group>"; };
+		227B76321CCE1EBE0043F6D0 /* SSLToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSLToast.m; path = View/Toast/SSLToast.m; sourceTree = "<group>"; };
 		227DA5911CBDF89700E4D428 /* SSLLunchPool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SSLLunchPool.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		227DA5951CBDF89700E4D428 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		227DA5971CBDF89700E4D428 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -41,6 +43,7 @@
 		229E01BF1CCBC10D003561AE /* SSLPlaceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SSLPlaceViewController.xib; path = Controller/SSLPlaceViewController/SSLPlaceViewController.xib; sourceTree = "<group>"; };
 		A4ECA3031CC947A900CAF397 /* SSLLunchPool-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SSLLunchPool-Prefix.pch"; sourceTree = "<group>"; };
 		B2C12FD6B991120A23803B65 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E67BCA70A0ECE533F222A69B /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,13 +51,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				485831EC901AC5DC91A8E56D /* libPods.a in Frameworks */,
+				D8EFACFCE1877769E98A60DE /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		227B762F1CCE1E7A0043F6D0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				227B76301CCE1EA40043F6D0 /* Toast */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		227B76301CCE1EA40043F6D0 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				227B76311CCE1EBE0043F6D0 /* SSLToast.h */,
+				227B76321CCE1EBE0043F6D0 /* SSLToast.m */,
+			);
+			name = Toast;
+			sourceTree = "<group>";
+		};
 		227DA5881CBDF89700E4D428 = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +96,7 @@
 		227DA5931CBDF89700E4D428 /* SSLLunchPool */ = {
 			isa = PBXGroup;
 			children = (
+				227B762F1CCE1E7A0043F6D0 /* View */,
 				229E01B91CCBB814003561AE /* Controller */,
 				227DA5AB1CBE02C300E4D428 /* Model */,
 				227DA5971CBDF89700E4D428 /* AppDelegate.h */,
@@ -140,7 +161,7 @@
 		D1637BDF8698940F7122D640 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				09EFD608C96608D44BD70129 /* libPods.a */,
+				E67BCA70A0ECE533F222A69B /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -277,6 +298,7 @@
 			files = (
 				227DA59C1CBDF89700E4D428 /* ViewController.m in Sources */,
 				227DA5AE1CBE02FF00E4D428 /* SSLRestaurant.m in Sources */,
+				227B76331CCE1EBE0043F6D0 /* SSLToast.m in Sources */,
 				229E01BD1CCBB844003561AE /* SSLPlaceViewController.m in Sources */,
 				227DA5991CBDF89700E4D428 /* AppDelegate.m in Sources */,
 				227DA5961CBDF89700E4D428 /* main.m in Sources */,
@@ -397,7 +419,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SSLLunchPool/SSLLunchPool-Prefix.pch";
 				INFOPLIST_FILE = SSLLunchPool/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sam.lai.SSLLunchPool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -415,7 +437,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SSLLunchPool/SSLLunchPool-Prefix.pch";
 				INFOPLIST_FILE = SSLLunchPool/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sam.lai.SSLLunchPool;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -11,6 +11,8 @@
 #import "SSLRestaurant.h"
 #import <AVFoundation/AVFoundation.h>
 #import "SSLPlaceViewController.h"
+// View
+#import "SSLToast.h"
 
 @import GoogleMaps;
 
@@ -26,6 +28,7 @@
     __weak IBOutlet UIButton *addButton;
     BOOL _starting;
     NSArray *_places;
+    NSArray *_photos;
     UIActivityIndicatorView *_activityIndicatorView;
 }
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -52,6 +55,8 @@
     NSArray *imageNames = @[@"Brunch", @"koera", @"McDonald's", @"MosBurger", @"noodles", @"stirFries", @"TiMAMA"];
     
     _restaurants = [NSMutableArray new];
+    _places = [NSArray array];
+    _photos = [NSArray array];
     
     for (NSString *imageName in imageNames) {
         if (imageName.length) {
@@ -67,26 +72,26 @@
     
     _imagePickerController = [[UIImagePickerController alloc] init];
     _imagePickerController.delegate = self;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
-    _placesClient = [[GMSPlacesClient alloc] init];
-    
-    [_placesClient currentPlaceWithCallback:^(GMSPlaceLikelihoodList * _Nullable likelihoodList, NSError * _Nullable error) {
-        if (error != nil) {
-            NSLog(@"Picker Place error %@", error.localizedDescription);
-            return;
-        }
-        
-        if (likelihoodList != nil) {
-            _places = [likelihoodList likelihoods];
-            [_activityIndicatorView stopAnimating];
-            [self add:nil];
-        }
-    }];
+    if (_places.count == 0) {
+        [self fetchPlaceWithCompletion:^(NSArray *places) {
+            _places = places;
+            _photos = [self restaurantPhotosFromRestaurantPlaceLikehoods:_places];
+        }];
+    }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    _placesClient = [[GMSPlacesClient alloc] init];
+    
     _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     _activityIndicatorView.center = CGPointMake(CGRectGetMidX([[UIScreen mainScreen] bounds]), CGRectGetMidY([[UIScreen mainScreen] bounds]));
     _activityIndicatorView.hidesWhenStopped = YES;
@@ -130,6 +135,11 @@
     }
     else {
         [_activityIndicatorView startAnimating];
+        [self fetchPlaceWithCompletion:^(NSArray *places) {
+            _places = places;
+            _photos = [self restaurantPhotosFromRestaurantPlaceLikehoods:_places];
+            [self add:nil];
+        }];
     }
 }
 
@@ -183,6 +193,119 @@
         self.nameLabel.text = place.name;
         self.addressLabel.text = place.formattedAddress;
     }
+}
+
+- (void)fetchPlaceWithCompletion:(void(^)(NSArray *places))completion
+{
+    [_placesClient currentPlaceWithCallback:^(GMSPlaceLikelihoodList * _Nullable likelihoodList, NSError * _Nullable error) {
+        if (error != nil) {
+            NSString *errorMessage = error.localizedDescription;
+            NSLog(@"%s, error: %@", __FUNCTION__, errorMessage);
+            [self toastWithMessage:errorMessage withInterval:3.0];
+            return;
+        }
+        
+        if (likelihoodList != nil) {
+            if (completion) {
+                NSArray *restaurants = [self restaurantPlaceLikehoodsFromPlaceLikelihoods:[likelihoodList likelihoods]];
+                completion(restaurants);
+            }
+        }
+    }];
+}
+
+- (NSArray *)restaurantPlaceLikehoodsFromPlaceLikelihoods:(NSArray *)placeLikelihoods
+{
+    NSMutableArray *restaurants = [NSMutableArray array];
+    
+    for (GMSPlaceLikelihood *placeLikehood in placeLikelihoods) {
+    
+        for (NSString *type in placeLikehood.place.types) {
+            if ([type isEqualToString:@"restaurant"]) {
+                [restaurants addObject:placeLikehood];
+            }
+        }
+    }
+    
+    return [restaurants copy];
+}
+
+- (void)fetchPlacePhotoWithCompletion:(void(^)(NSArray *photos))completion
+{
+
+}
+
+- (NSArray *)restaurantPhotosFromRestaurantPlaceLikehoods:(NSArray *)restaurantPlaceLikehoods
+{
+    __block NSMutableArray *restaurantPhotos = [NSMutableArray array];
+
+    for (GMSPlaceLikelihood *placeLikehood in restaurantPlaceLikehoods) {
+        
+        [self lookUpPhotosForPlaceID:placeLikehood.place.placeID withCompletion:^(GMSPlacePhotoMetadataList * _Nullable photos, NSError * _Nullable error) {
+            if (error != nil) {
+                NSString *errorMessage = error.localizedDescription;
+                NSLog(@"%s, error: %@", __FUNCTION__, errorMessage);
+                [self toastWithMessage:errorMessage withInterval:3.0];
+                return;
+            }
+            if (photos) {
+                NSArray *results = photos.results;
+                for (GMSPlacePhotoMetadata *result in results) {
+                    NSLog(@"%@", result.attributions.string);
+
+                    [self loadPlacePhotoFromPlacePhotoMetadata:result withCompletion:^(UIImage * _Nullable photo, NSError * _Nullable error) {
+                        if (error != nil) {
+                            NSString *errorMessage = error.localizedDescription;
+                            NSLog(@"%s, error: %@", __FUNCTION__, errorMessage);
+                            [self toastWithMessage:errorMessage withInterval:3.0];
+                            return;
+                        }
+                        if (photo) {
+                            [restaurantPhotos addObject:photo];
+                        }
+ 
+                    }];
+
+                }
+            }
+
+        }];
+    }
+    
+    return [restaurantPhotos copy];
+}
+
+- (void)loadPlacePhotoFromPlacePhotoMetadata:(nonnull GMSPlacePhotoMetadata *)placePhotoMetadata withCompletion:(void(^)(UIImage * _Nullable photo, NSError * _Nullable error))completion
+{
+    [_placesClient loadPlacePhoto:placePhotoMetadata callback:^(UIImage * _Nullable photo, NSError * _Nullable error) {
+        if (completion) {
+            completion(photo, error);
+        }
+    }];
+}
+
+- (void)lookUpPhotosForPlaceID:(nonnull NSString *)placeID withCompletion:(void(^)(GMSPlacePhotoMetadataList * _Nullable photos, NSError * _Nullable error))completion
+{
+    [_placesClient lookUpPhotosForPlaceID:placeID callback:^(GMSPlacePhotoMetadataList * _Nullable photos, NSError * _Nullable error) {
+        if (completion) {
+            completion(photos, error);
+        }
+    }];
+
+}
+
+- (void)toastWithMessage:(NSString *)message withInterval:(NSTimeInterval)interval
+{
+    addButton.hidden = !addButton.hidden;
+    
+    SSLToast *toast = [SSLToast loadViewWithMessage:message];
+    [self.imageView addSubview:toast];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(interval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [toast removeFromSuperview];
+        addButton.hidden = !addButton.hidden;
+        [_activityIndicatorView stopAnimating];
+    });
 }
 
 @end

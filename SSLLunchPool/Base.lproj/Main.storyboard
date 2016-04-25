@@ -54,13 +54,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ZxF-lX-Qmc">
-                                <rect key="frame" x="30" y="84" width="540" height="30"/>
+                                <rect key="frame" x="30" y="120" width="540" height="30"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="yqZ-9J-hDs">
-                                <rect key="frame" x="30" y="144" width="540" height="30"/>
+                                <rect key="frame" x="30" y="180" width="540" height="30"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -68,7 +68,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ZxF-lX-Qmc" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="64" id="2QP-f2-WDA"/>
+                            <constraint firstItem="ZxF-lX-Qmc" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="100" id="2QP-f2-WDA"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="dSr-gm-OtM" secondAttribute="bottom" id="5gJ-ja-OfD"/>
                             <constraint firstItem="yqZ-9J-hDs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7Ig-s5-6VO"/>
                             <constraint firstAttribute="trailing" secondItem="dSr-gm-OtM" secondAttribute="trailing" id="AI0-Yv-WCE"/>

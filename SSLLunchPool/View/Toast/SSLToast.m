@@ -9,13 +9,30 @@
 #import "SSLToast.h"
 
 @implementation SSLToast
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
++ (instancetype)loadViewWithMessage:(NSString *)message
+{
+    return [[SSLToast alloc] initWithMessage:message];
 }
-*/
+
+- (instancetype)initWithMessage:(NSString *)message
+{
+    self = [super init];
+    if (self) {
+        CGRect frame = [[UIScreen mainScreen] bounds];
+        frame.size.height = 88.0f;
+        
+        self.frame = frame;
+        self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+        
+        UILabel *messageLabel = [[UILabel alloc] initWithFrame:frame];
+        messageLabel.text = message;
+        messageLabel.textColor = [UIColor whiteColor];
+        messageLabel.numberOfLines = 0;
+        messageLabel.adjustsFontSizeToFitWidth = YES;
+        
+        [self addSubview:messageLabel];
+    }
+    return self;
+}
 
 @end
