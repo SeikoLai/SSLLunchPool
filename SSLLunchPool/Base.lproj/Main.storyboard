@@ -22,20 +22,8 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <gestureRecognizers/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6GS-ln-xaM">
-                                <rect key="frame" x="50" y="508" width="54" height="42"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="25"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
-                                <state key="normal" title="Stop">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="stop:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sqB-cH-HUd"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tm6-6m-eWl">
-                                <rect key="frame" x="495" y="508" width="55" height="42"/>
+                                <rect key="frame" x="273" y="508" width="55" height="42"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="25"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
@@ -43,7 +31,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="start:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eox-Yr-zCg"/>
+                                    <action selector="fire:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FR5-HH-GFm"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wBm-h8-aVX">
@@ -69,11 +57,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ZxF-lX-Qmc" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="100" id="2QP-f2-WDA"/>
+                            <constraint firstItem="Tm6-6m-eWl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4uo-VY-fdM"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="dSr-gm-OtM" secondAttribute="bottom" id="5gJ-ja-OfD"/>
                             <constraint firstItem="yqZ-9J-hDs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7Ig-s5-6VO"/>
                             <constraint firstAttribute="trailing" secondItem="dSr-gm-OtM" secondAttribute="trailing" id="AI0-Yv-WCE"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Tm6-6m-eWl" secondAttribute="trailing" constant="30" id="CwG-Uw-Hlv"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="6GS-ln-xaM" secondAttribute="bottom" constant="50" id="ElF-71-DNB"/>
                             <constraint firstAttribute="trailingMargin" secondItem="yqZ-9J-hDs" secondAttribute="trailing" constant="10" id="HRA-pI-ccb"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Tm6-6m-eWl" secondAttribute="bottom" constant="50" id="I21-Sz-7j6"/>
                             <constraint firstItem="yqZ-9J-hDs" firstAttribute="top" secondItem="ZxF-lX-Qmc" secondAttribute="bottom" constant="30" id="RtT-TQ-6SV"/>
@@ -82,7 +70,6 @@
                             <constraint firstItem="dSr-gm-OtM" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="c4d-bw-3z4"/>
                             <constraint firstAttribute="trailingMargin" secondItem="wBm-h8-aVX" secondAttribute="trailing" constant="10" id="igQ-jo-1HF"/>
                             <constraint firstItem="wBm-h8-aVX" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="j31-79-shJ"/>
-                            <constraint firstItem="6GS-ln-xaM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="30" id="mzt-we-NZ7"/>
                             <constraint firstItem="ZxF-lX-Qmc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qdS-h1-lNr"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ZxF-lX-Qmc" secondAttribute="trailing" constant="10" id="vRq-Gd-3N2"/>
                             <constraint firstItem="dSr-gm-OtM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="zRH-CG-91E"/>
@@ -90,6 +77,7 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="7Ig-s5-6VO"/>
+                                <exclude reference="CwG-Uw-Hlv"/>
                             </mask>
                         </variation>
                     </view>
@@ -99,7 +87,6 @@
                         <outlet property="imageView" destination="dSr-gm-OtM" id="OwF-1f-63i"/>
                         <outlet property="nameLabel" destination="ZxF-lX-Qmc" id="bDA-dw-qrr"/>
                         <outlet property="startButton" destination="Tm6-6m-eWl" id="S7F-Fl-FHo"/>
-                        <outlet property="stopButton" destination="6GS-ln-xaM" id="arI-Fd-Gtp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

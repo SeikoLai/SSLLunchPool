@@ -35,8 +35,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
-- (IBAction)start:(id)sender;
-- (IBAction)stop:(id)sender;
 - (IBAction)add:(id)sender;
 
 @end
@@ -53,6 +51,8 @@
     stopButton = [self circleButtonFromButton:stopButton];
     
     NSArray *imageNames = @[@"Brunch", @"koera", @"McDonald's", @"MosBurger", @"noodles", @"stirFries", @"TiMAMA"];
+    
+    _placesClient = [GMSPlacesClient sharedClient];
     
     _restaurants = [NSMutableArray new];
     _places = [NSArray array];
@@ -90,8 +90,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    _placesClient = [[GMSPlacesClient alloc] init];
-    
     _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     _activityIndicatorView.center = CGPointMake(CGRectGetMidX([[UIScreen mainScreen] bounds]), CGRectGetMidY([[UIScreen mainScreen] bounds]));
     _activityIndicatorView.hidesWhenStopped = YES;
@@ -108,19 +106,33 @@
     return YES;
 }
 
-- (IBAction)start:(id)sender {
-    addButton.hidden = YES;
+- (IBAction)fire:(UIButton *)sender {
+    if ([startButton.titleLabel.text isEqualToString:@"Start"]) {
+        [startButton setTitle:@"Stop" forState:UIControlStateNormal];
+        [self start:nil];
+    }
+    else {
+        [startButton setTitle:@"Start" forState:UIControlStateNormal];
+        [self stop:nil];
+    }
+}
+
+- (void)start:(id)sender
+{
     [self.imageView startAnimating];
+    addButton.hidden = YES;
     _starting = YES;
 }
 
-- (IBAction)stop:(id)sender {
+- (void)stop:(id)sender
+{
     [self.imageView stopAnimating];
     if (_starting) {
         _starting = NO;
         [self choose];
     }
     addButton.hidden = NO;
+
 }
 
 - (IBAction)add:(id)sender {

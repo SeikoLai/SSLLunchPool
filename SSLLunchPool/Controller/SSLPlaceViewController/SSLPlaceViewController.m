@@ -20,6 +20,12 @@
     GMSPlacesClient *_placesClient;
 }
 
+- (void)loadView
+{
+    [super loadView];
+    _placesClient = [GMSPlacesClient sharedClient];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
